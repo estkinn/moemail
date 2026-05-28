@@ -6,6 +6,7 @@ import type { Metadata, Viewport } from "next"
 import { FloatMenu } from "@/components/float-menu"
 import { ThemeProvider } from "@/components/theme/theme-provider"
 import { Toaster } from "@/components/ui/toaster"
+import { WallpaperBackground } from "@/components/wallpaper-background"
 import { cn } from "@/lib/utils"
 import { zpix } from "../fonts"
 import "../globals.css"
@@ -132,6 +133,7 @@ export default async function LocaleLayout({
           disableTransitionOnChange={false}
           storageKey="temp-mail-theme"
         >
+          <WallpaperBackground />
           <Providers>
             <NextIntlClientProvider locale={locale} messages={messages}>
               {children}
