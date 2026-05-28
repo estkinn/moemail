@@ -118,11 +118,11 @@ export default async function LocaleLayout({
         <meta name="format-detection" content="telephone=no" />
         <meta name="mobile-web-app-capable" content="yes" />
       </head>
-      <body 
+      <body
         className={cn(
           zpix.variable,
           "font-zpix min-h-screen antialiased",
-          "bg-background text-foreground",
+          "text-foreground",
           "transition-colors duration-300"
         )}
       >

@@ -2,13 +2,20 @@
 
 import { useEffect, useState } from 'react'
 
-const WALLPAPER_API = 'https://api.xsot.cn/bing?jump=true'
+const WALLPAPER_API = 'https://api.xsot.cn/bing/'
 const CACHE_KEY = 'moemail_wallpaper'
 const CACHE_DURATION = 24 * 60 * 60 * 1000 // 24 hours
 
 interface WallpaperCache {
   url: string
   timestamp: number
+}
+
+interface WallpaperResponse {
+  success: boolean
+  data: {
+    image: string
+  }
 }
 
 export function useWallpaper() {
@@ -28,12 +35,17 @@ export function useWallpaper() {
     }
 
     fetch(WALLPAPER_API)
-      .then(res => res.url)
-      .then(url => {
-        setWallpaperUrl(url)
-        localStorage.setItem(CACHE_KEY, JSON.stringify({ url, timestamp: Date.now() }))
+      .then(res => res.json() as Promise<WallpaperResponse>)
+      .then(res => {
+        if (res.success && res.data?.image) {
+          const url = res.data.image
+          setWallpaperUrl(url)
+          localStorage.setItem(CACHE_KEY, JSON.stringify({ url, timestamp: Date.now() }))
+        }
       })
-      .catch(() => {})
+      .catch((err) => {
+        console.error('Failed to fetch wallpaper:', err)
+      })
   }, [])
 
   return wallpaperUrl
